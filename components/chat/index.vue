@@ -63,6 +63,7 @@ export default {
         'selected_room'() {
             this.$socket.emit('swith channel', this.selected_room)
             this.users = [this.$socket.id]
+            this.messages = []
             this.resetScroll()
         }
     },
