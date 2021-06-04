@@ -1,0 +1,74 @@
+/*=========================RALEWAY=================================*/
+@font-face {
+  font-family: "raleway thin";
+  src: url(~assets/fonts/Raleway/Raleway-Thin.ttf) format("truetype");
+}
+
+@font-face {
+  font-family: "raleway extralight";
+  src: url(~assets/fonts/Raleway/Raleway-ExtraLight.ttf) format("truetype");
+}
+
+@font-face {
+  font-family: "raleway light";
+  src: url(~assets/fonts/Raleway/Raleway-Light.ttf) format("truetype");
+}
+
+@font-face {
+  font-family: "raleway regular";
+  src: url(~assets/fonts/Raleway/Raleway-Regular.ttf) format("truetype");
+}
+
+@font-face {
+  font-family: "raleway medium";
+  src: url(~assets/fonts/Raleway/Raleway-Medium.ttf) format("truetype");
+}
+
+@font-face {
+  font-family: "raleway semibold";
+  src: url(~assets/fonts/Raleway/Raleway-SemiBold.ttf) format("truetype");
+}
+
+@font-face {
+  font-family: "raleway bold";
+  src: url(~assets/fonts/Raleway/Raleway-Bold.ttf) format("truetype");
+}
+
+@font-face {
+  font-family: "raleway extrabold";
+  src: url(~assets/fonts/Raleway/Raleway-ExtraBold.ttf) format("truetype");
+}
+
+@font-face {
+  font-family: "raleway black";
+  src: url(~assets/fonts/Raleway/Raleway-Black.ttf) format("truetype");
+}
+
+/*=========================USE FONT=================================*/
+.font-family-raleway-thin {
+  font-family: 'raleway thin';
+}
+.font-family-raleway-extralight {
+  font-family: 'raleway extralight';
+}
+.font-family-raleway-light {
+  font-family: 'raleway light';
+}
+.font-family-raleway-regular {
+  font-family: 'raleway regular';
+}
+.font-family-raleway-medium {
+  font-family: 'raleway medium';
+}
+.font-family-raleway-semibold {
+  font-family: 'raleway semibold';
+}
+.font-family-raleway-bold {
+  font-family: 'raleway bold';
+}
+.font-family-raleway-extrabold {
+  font-family: 'raleway extrabold';
+}
+.font-family-raleway-black {
+  font-family: 'raleway black';
+}
