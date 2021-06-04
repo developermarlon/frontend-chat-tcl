@@ -7,7 +7,7 @@
             v-flex.xs8.elevation-15.rounded-lg.message-container.d-flex.flex-wrap.justify-end.flex-column
                 div(id="your_div" ref="container-messages-scroll").pa-3
                     div(v-for="(item, idx) in messages" :key="idx")
-                        v-card( :max-width="320" dark :class="[`${item.type_user}`, (item.type_user === 'self' || item.type_user === 'moderator') ? 'align-self-end' : '']").pa-3.rounded-lg.mt-3.message
+                        v-card(:max-width="400" dark :class="[`${item.type_user}`, (item.type_user === 'self' || item.type_user === 'moderator') ? 'align-self-end' : '']").pa-3.rounded-lg.mt-3.message
                             h5.font-family-raleway-bold.mb-0 {{item.id}}
                             p(v-html="item.message").font-family-raleway-bold.text-caption.mb-0
 
@@ -77,7 +77,6 @@ export default {
             this.messages.push({type_user: 'moderator', message: `user ${data.id} logged out`, id: 'Logged out'})
         },
         'get clients'(data) {
-            console.log('obtiene usuarios')
             this.users = data
         },
         'get message'({id, type_user, message}) {
