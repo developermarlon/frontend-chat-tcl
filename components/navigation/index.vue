@@ -5,18 +5,6 @@
       //- INFO PROFILE
       template(v-slot:prepend)
         v-list(dense color="secondary" dark)
-          v-list-item
-            v-list-item-avatar(size="56" :elevation="10")
-              v-img(v-if="auth" :src="photo" transition="scroll-x-reverse-transition")
-                template(v-slot:placeholder)
-                  v-row.fill-height.ma-0(align="center" justify="center")
-                    v-progress-circular(indeterminate color="grey lighten-5")
-
-              v-img(v-else src="https://res.cloudinary.com/hnhnaig2j/image/upload/v1617161423/default/default-user_ynpwjb.png" transition="scroll-x-reverse-transition")
-                template(v-slot:placeholder)
-                  v-row.fill-height.ma-0(align="center" justify="center")
-                    v-progress-circular(indeterminate color="grey lighten-5")
-
           v-list-item(link)
             v-list-item-content
               v-list-item-title.light-1--text.text-body-1.font-family-raleway-bold {{ auth ? name : 'Cesion Cerrada' }}
@@ -159,7 +147,7 @@ export default {
 .v-navigation-drawer {
 
   div.v-navigation-drawer__prepend>div {
-    box-shadow: 0px 5px 0px 0px var(--v-secondary-base);
+    // box-shadow: 0px 5px 0px 0px var(--v-secondary-base);
   }
 
   div.v-list-group__header {

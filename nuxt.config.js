@@ -15,7 +15,7 @@ export default {
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
       { hid: 'description', name: 'description', content: 'Example. Lorem ipsum dolor sit amet consectetur adipisicing elit. Earum quis dignissimos necessitatibus architecto porro similique explicabo consectetur qui' },
-      { hid: 'theme-color', name: 'theme-color', content: colors.blueGrey.darken1 },
+      { hid: 'theme-color', name: 'theme-color', content: '#000000' },
       { hid: 'og:url', property: 'og:url', content: "https://developer-test-front.netlify.app" },
       { hid: 'og:description', name: 'og:description', content: 'Example. Lorem ipsum dolor sit amet consectetur adipisicing elit. Earum quis dignissimos necessitatibus architecto porro similique explicabo consectetur qui' },
       {hid: 'og:image', property: 'og:image', content: '/icon.png'},
@@ -100,8 +100,8 @@ export default {
       },
       themes: {
         light: {
-          primary: colors.red.darken1,
-          secondary: colors.blueGrey.darken1,
+          primary: '#FF0013',
+          secondary: '#000000',
           background: '#f4f4f4',
           accent: colors.grey.darken3,
           info: colors.teal.lighten1,

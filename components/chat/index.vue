@@ -100,7 +100,7 @@ export default {
 
 <style lang="scss" scoped>
     $backgroundContainers: rgb(251,251,251);
-    $heightChat: 60vh;
+    $heightChat: 55vh;
 
     @mixin styleScroll ($width, $color) {
         &::-webkit-scrollbar {
@@ -120,6 +120,7 @@ export default {
     .message-container {
         background: $backgroundContainers;
         height: $heightChat;
+        max-height: 600px;
 
         & > div {
             overflow-y: scroll;
