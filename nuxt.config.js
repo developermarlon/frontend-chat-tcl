@@ -15,7 +15,7 @@ export default {
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
       { hid: 'description', name: 'description', content: 'Example. Lorem ipsum dolor sit amet consectetur adipisicing elit. Earum quis dignissimos necessitatibus architecto porro similique explicabo consectetur qui' },
-      { hid: 'theme-color', name: 'theme-color', content: '#000000' },
+      { hid: 'theme-color', name: 'theme-color', content: colors.blueGrey.darken1 },
       { hid: 'og:url', property: 'og:url', content: "https://developer-test-front.netlify.app" },
       { hid: 'og:description', name: 'og:description', content: 'Example. Lorem ipsum dolor sit amet consectetur adipisicing elit. Earum quis dignissimos necessitatibus architecto porro similique explicabo consectetur qui' },
       {hid: 'og:image', property: 'og:image', content: '/icon.png'},
@@ -59,7 +59,7 @@ export default {
   axios: {
     baseURL: process.env.NODE_ENV === 'production' ? 'https://backend-chat-tcl.herokuapp.com' : 'http://192.168.0.105:3000',
   },
-  loading: { color: '#fa001d', height: '5px', throttle: 0 },
+  loading: { color: colors.blueGrey.darken1, height: '5px', throttle: 0 },
   publicRuntimeConfig: {
     axios: {
       browserBaseURL: process.env.BROWSER_BASE_URL
