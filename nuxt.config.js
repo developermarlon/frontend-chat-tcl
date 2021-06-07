@@ -100,8 +100,8 @@ export default {
       },
       themes: {
         light: {
-          primary: '#fa001d',
-          secondary: '#000000',
+          primary: colors.red.darken1,
+          secondary: colors.blueGrey.darken1,
           background: '#f4f4f4',
           accent: colors.grey.darken3,
           info: colors.teal.lighten1,

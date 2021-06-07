@@ -1,45 +1,35 @@
 <template lang="pug">
     v-container
+
+        v-layout.mb-4
+            v-flex.xs12
+                ChatSelectRoom
         
-        v-layout.align-stretch
+        v-layout.align-stretch.wrap
 
             //- CONTAINER MESSAGES
-            v-flex.xs8.elevation-15.rounded-lg.message-container.d-flex.flex-wrap.justify-end.flex-column
+            v-flex.xs12.sm8.elevation-15.rounded-lg.message-container.d-flex.flex-wrap.justify-end.flex-column
                 div(id="your_div" ref="container-messages-scroll").pa-3
-                    div(v-for="(item, idx) in messages" :key="idx")
-                        v-card(:max-width="400" dark :class="[`${item.type_user}`, (item.type_user === 'self' || item.type_user === 'moderator') ? 'align-self-end' : '']").pa-3.rounded-lg.mt-3.message
-                            h5.font-family-raleway-bold.mb-0 {{item.id}}
-                            p(v-html="item.message").font-family-raleway-bold.text-caption.mb-0
+                    div(v-for="(item, idx) in messages" :key="idx" :max-width="400" dark :class="[`${item.type_user}`, (item.type_user === 'self' || item.type_user === 'moderator') ? 'align-self-end' : '']").pa-3.rounded-lg.mt-3.message
+                        h5.font-family-raleway-bold.mb-0 {{item.id}}
+                        p(v-html="item.message").font-family-raleway-bold.text-caption.mb-0
 
             //- CONTAINER USERS
-            v-flex.xs4.ml-5.users-container
+            v-flex.xs12.sm4.pl-sm-4.mt-4.mt-sm-0.users-container
                 v-layout.flex-column.elevation-15.rounded-lg
                     v-flex
                         v-btn(color="secondary" block).rounded-0.rounded-t-lg.font-family-raleway-bold USERS
-                    v-flex.xs12.background-users.rounded-0.rounded-b-lg
-                        v-list
+                    v-flex.xs12.background-users.rounded-0.rounded-lg
+                        v-list.rounded-lg
                             v-list-item-group(color="primary")
                                 v-list-item(v-for="(item, idx) in users" :key="idx")
                                     v-list-item-icon
                                         v-icon(color="red lighten-3") account_circle
                                     v-list-item-content
                                         v-list-item-title(v-text="item").font-family-raleway-bold.text--secondary
-        
-        v-layout.mt-4.align-start
 
-            //- SEND MESSAGE
-            v-flex.xs8.elevation-15.rounded-lg.pa-3.message-send-container
-                v-layout
-                    v-flex.xs12
-                        vue-editor(placeholder="Write Something..." v-model="message")
-                    v-flex.ml-3
-                        v-btn(color="secondary" @click="sendMessage").font-family-raleway-bold.rounded-lg SEND
-
-            //- LOGOUT
-            v-flex.xs4.ml-5.users-container
-                v-btn(color="primary" block).rounded-lg.font-family-raleway-bold
-                    div LOGOUT
-                    v-icon power_settings_new
+        ChatSendMessage(v-on:message="sendMessage")
+                
 </template>
 
 <script>
@@ -48,16 +38,10 @@ export default {
     name: 'Chat',
     data() {
         return {
-            message: null,
             divScroll: null,
             messages: [],
-            users: [this.$socket.id]
+            users: [this.$socket.id],
         }
-    },
-    computed: {
-        ...mapGetters({
-            'selected_room': 'chat/selected_room'
-        })
     },
     watch: {
         'selected_room'() {
@@ -66,6 +50,11 @@ export default {
             this.messages = []
             this.resetScroll()
         }
+    },
+    computed: {
+        ...mapGetters({
+            'selected_room': 'chat/selected_room'
+        }),
     },
     sockets: {
         'user connected'(data) {
@@ -95,10 +84,9 @@ export default {
             this.$socket.emit('swith channel', this.selected_room)
             this.resetScroll()
         },
-        async sendMessage() {
-            await this.messages.push({type_user: 'self', message: this.message, id: this.$socket.id})
-            await this.$socket.emit('send message', {room: this.selected_room, message: this.message, type_user: 'client'})
-            this.message = null
+        async sendMessage(message) {
+            await this.messages.push({type_user: 'self', message: message, id: this.$socket.id})
+            await this.$socket.emit('send message', {room: this.selected_room, message: message, type_user: 'client'})
             this.$nextTick(() => {
                 this.resetScroll()
             })
@@ -112,7 +100,7 @@ export default {
 
 <style lang="scss" scoped>
     $backgroundContainers: rgb(251,251,251);
-    $heightChat: 500px;
+    $heightChat: 60vh;
 
     @mixin styleScroll ($width, $color) {
         &::-webkit-scrollbar {
@@ -138,21 +126,31 @@ export default {
             overflow-x: hidden;
             height: auto;
             margin-bottom: 10px;
-            @include styleScroll(20px, rgba(0,0,0,.6));
+            @include styleScroll(20px, var(--v-secondary-base));
+            display: flex;
+            justify-content: flex-start;
+            flex-direction: column;
 
             & div.message {
-                background: rgba(0,0,0,.5);
+                background: transparent;
+                border: 1px solid var(--v-secondary-base);
+                color: var(--v-secondary-base);
                 width: 100%;
+                max-width: 400px;
                 display: inline-block;
 
                 &.moderator {
-                    background: rgba(250, 0, 29, .6);
-                    float: right;
+                    background: var(--v-primary-base);
+                    border: none;
+                    color: white;
+                    align-self: flex-end;
                 }
 
                 &.self {
-                    background: rgba(0, 0, 0, .8);
-                    float: right;
+                    background: var(--v-secondary-base);
+                    border: none;
+                    color: white;
+                    align-self: flex-end;
                 }
             }
 
