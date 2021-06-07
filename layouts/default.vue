@@ -8,7 +8,7 @@
                 v-progress-circular(indeterminate color="grey lighten-5")
       p(:max-width="150").mb-0.font-family-raleway-medium.text-caption.text--secondary.text-copy Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean velit purus, euismod eu eros et, volutpat ullamcorper diam.
       v-spacer
-      v-btn(color="primary" fab small outlined)
+      v-btn(color="primary" fab small outlined v-if="$vuetify.breakpoint.smAndUp")
         v-icon power_settings_new
 
     Navigation(:sidebarMenu="sidebarMenu" v-on:closeNavbar="closeNavbar")
