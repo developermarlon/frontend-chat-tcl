@@ -31,7 +31,7 @@ export default {
                 if(!count) acc.push(item.room)
                 return acc
             }, [])
-            if(roomsDetected.filter(item => item === this.$route.query.room).length === 0) roomsDetected.push(this.$route.query.room)
+            if(this.$route.query.room && (roomsDetected.filter(item => item === this.$route.query.room)).length === 0) roomsDetected.push(this.$route.query.room)
             if(roomsDetected.filter(item => item === this.selected_room).length === 0) roomsDetected.push(this.selected_room)
             return roomsDetected
         }
