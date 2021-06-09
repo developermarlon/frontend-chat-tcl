@@ -1,20 +1,21 @@
 <template lang="pug">
     v-container(v-if="user.auth && selected_room !== null")
 
-        //- v-layout.mb-4
-        //-     v-flex.xs12
-        //-         ChatSelectRoom
+        v-layout.mb-4
+            v-flex.xs12
+                ChatSelectRoom
         
         v-layout.align-stretch.wrap
 
             //- CONTAINER MESSAGES
             v-flex.xs12.sm8.elevation-15.rounded-lg.message-container.d-flex.flex-wrap.justify-end.flex-column
                 div(id="your_div" ref="container-messages-scroll")
-                    div(v-for="(item, idx) in messages" :key="idx" :max-width="400" dark :class="[item.type_user]").px-4.py-2.mt-2.message
-                        h5.font-family-raleway-bold.mb-0 {{item.name}}
+                    div(v-for="(item, idx) in messages" :key="idx" :max-width="400" dark :class="[item.type_user]").px-3.py-1.mt-2.message
+                        h5.font-family-raleway-bold.mb-0 {{`${item.name} ( ${item.type_user} )`}}
                         p(v-html="item.message").font-family-raleway-medium.text-caption.mb-0
                         p.font-family-raleway-bold.text-caption.mb-0.text-right {{ item.date }}
-
+                v-btn(id="resetChat" @click="dialogClearMessages = true" color="grey darken-1" small rounded dark fab)
+                    v-icon delete
             //- CONTAINER USERS
             v-flex.xs12.sm4.pl-sm-4.mt-9.mb-9.mt-sm-0.mb-sm-0.users-container
                 v-layout.flex-column.elevation-15.rounded-lg
@@ -27,8 +28,24 @@
                                     v-list-item-icon
                                         v-icon(color="grey darken-2") perm_identity
                                     v-list-item-content
-                                        v-list-item-title(v-text="item.name").font-family-raleway-bold.text--secondary
+                                        v-list-item-title.font-family-raleway-bold.text--secondary {{`${item.name}`}}
+                                        v-list-item-subtitle.font-family-raleway-medium {{`${item.type_user}`}}
 
+        //- MODAL CLOSE SESION
+        v-dialog(v-model="dialogClearMessages" max-width="290")
+            v-card.rounded-xl
+                v-card-title.headline.primary.white--text.font-family-raleway-bold 
+                    v-btn(icon dark @click="dialogClearMessages = false" ).mr-2
+                        v-icon close
+                    div Clear Messages
+                
+
+                v-card-text.font-family-raleway-bold.mt-5 Confirm remove all messages of this room ??
+
+                v-card-actions.d-flex.flex-column
+                    v-spacer
+                    v-btn.dark.font-family-raleway-bold.text-capitalize(color="secondary" block rounded @click="dialogClearMessages = false; clearMessages()") Acept
+        
         ChatSendMessage(v-on:message="sendMessage")
                 
 </template>
@@ -41,6 +58,7 @@ export default {
         return {
             divScroll: null,
             users: [],
+            dialogClearMessages: false
         }
     },
     watch: {
@@ -87,7 +105,8 @@ export default {
         ...mapActions({
             openSession: 'user/openSession',
             updateRoom: 'chat/updateRoom',
-            pushMessage: 'chat/pushMessage'
+            pushMessage: 'chat/pushMessage',
+            clearMessages: 'chat/clearMessages'
         }),
         resetScroll() {
             this.divScroll = this.$refs['container-messages-scroll']
@@ -143,6 +162,13 @@ export default {
         background: $backgroundContainers;
         height: $heightChat;
         max-height: 600px;
+        position: relative;
+
+        button#resetChat{
+            position: absolute;
+            top: 10px;
+            right: 10px;
+        }
 
         & > div {
             overflow-y: scroll;
@@ -182,7 +208,7 @@ export default {
                     border-radius: 15px 15px 15px 0px;
                     background: transparent;
                     border: 2px solid #da555e;
-                    color: #da555e;;
+                    color: rgba(0,0,0,.6);
                     align-self: flex-start;
                 }
 

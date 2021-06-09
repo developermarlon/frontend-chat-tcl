@@ -9,17 +9,12 @@ export default {
     name: 'SelectRoom',
     data() {
         return {
-            rooms: [
-                'ROOM 1',
-                'ROOM 2',
-                'ROOM 3',
-                'ROOM 4'
-            ]
         }
     },
     computed: {
         ...mapGetters({
-            'selected_room': 'chat/selected_room'
+            'selected_room': 'chat/selected_room',
+            'allmessages': 'chat/allmessages'
         }),
         selectRoom:{
             get () {
@@ -28,6 +23,17 @@ export default {
             set (value) {
                 this.updateRoom(value)
             }
+        },
+        rooms(){
+            let roomsDetected = []
+            roomsDetected = this.allmessages.reduce((acc, item) => {
+                let count = acc.filter((room) => room == item.room).length
+                if(!count) acc.push(item.room)
+                return acc
+            }, [])
+            if(roomsDetected.filter(item => item === this.$route.query.room).length === 0) roomsDetected.push(this.$route.query.room)
+            if(roomsDetected.filter(item => item === this.selected_room).length === 0) roomsDetected.push(this.selected_room)
+            return roomsDetected
         }
     },
     methods: {
@@ -36,6 +42,9 @@ export default {
         }),
     },
     created() {
+        
+    },
+    mounted() {
         if(this.selected_room === null) this.updateRoom(this.rooms[0])
     }
 }

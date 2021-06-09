@@ -1,5 +1,6 @@
 export const state = () => ({
     selected_room: null,
+
     messages: []
 })
 
@@ -9,6 +10,9 @@ export const getters = {
     },
     messages: state => {
         return state.messages.filter((item) => item.room === state.selected_room)
+    },
+    allmessages: state => {
+        return state.messages
     }
 }
 
@@ -19,6 +23,9 @@ export const actions = {
     pushMessage({commit, state}, message) {
         commit('pushMessage', message)
     },
+    clearMessages({commit, state}) {
+        commit('clearMessages')
+    },
 }
 
 export const mutations = {
@@ -28,5 +35,9 @@ export const mutations = {
     pushMessage(state, message) {
         message.room = state.selected_room
         state.messages.push(message)
+    },
+    clearMessages(state) {
+        let newMessages = state.messages.filter((item) => item.room !== state.selected_room)
+        state.messages = newMessages
     }
 }
