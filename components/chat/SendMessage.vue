@@ -1,11 +1,11 @@
 <template lang="pug">
-  v-container(fluid pa-2).container-chat.elevation-15
+  v-container(fluid pa-2).container-chat.elevation-5
     v-container.pa-0
         v-layout(align-center)
             v-flex(xs12).d-flex.container-input.pl-0.pr-2
-                textarea(xs12 type="text" v-model="message" @keyup.enter="sendMessage()" placeholder="Write Something...").font-family-raleway-bold.text-body-2
+                textarea(xs12 type="text" ref="textarea" v-model="message" @keyup="textAreaAdjust()" placeholder="Write Something...").font-family-raleway-bold.text-body-2
             v-flex.container-button
-                v-btn(fab color="primary" @click="sendMessage()" dark).elevation-2 
+                v-btn(fab id="buttonSend" color="#da555e" @click="sendMessage()" dark).elevation-2 
                     v-icon(dark) fas fa-paper-plane
 </template>
 
@@ -19,10 +19,15 @@ export default {
   },
   methods: {
       sendMessage(){
-          this.$emit('message', this.message)
+          this.$emit('message', this.message.replace(/\n/g, "<br />"))
           this.$nextTick(() => {
               this.message = null
+              this.$refs.textarea.focus()
           })
+      },
+      textAreaAdjust() {
+          this.$refs.textarea.style.height = "1px";
+          this.$refs.textarea.style.height = (this.$refs.textarea.scrollHeight)+"px";
       }
   }
 }
@@ -44,7 +49,7 @@ export default {
       width: 100%;
       outline: none;
       color: rgba(0,0,0,.4);
-      height: 55px;
+      height: 56px;
 
       &::placeholder {
         color: rgba(0,0,0,.3);

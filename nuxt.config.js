@@ -47,6 +47,7 @@ export default {
   buildModules: [
     // https://go.nuxtjs.dev/vuetify
     '@nuxtjs/vuetify',
+    '@nuxtjs/moment'
   ],
 
   // Modules: https://go.nuxtjs.dev/config-modules
@@ -56,6 +57,11 @@ export default {
     // https://go.nuxtjs.dev/pwa
     '@nuxtjs/pwa'
   ],
+  moment: {
+    defaultTimezone: 'America/Bogota',
+    defaultLocale: 'es',
+    locales: ['es']
+  },
   axios: {
     baseURL: process.env.NODE_ENV === 'production' ? 'https://backend-chat-tcl.herokuapp.com' : 'http://192.168.0.105:3000',
   },
@@ -101,7 +107,7 @@ export default {
       themes: {
         light: {
           primary: '#FF0013',
-          secondary: '#000000',
+          secondary: '#2a2a2a',
           background: '#f4f4f4',
           accent: colors.grey.darken3,
           info: colors.teal.lighten1,

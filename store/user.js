@@ -1,30 +1,14 @@
 export const state = () => ({
-    auth: false,
-    name: null,
-    email: null,
-    photo: null,
-    role: null,
-    token: null
+    user: {
+        auth: false,
+        name: null,
+        type_user: null
+    }
 })
 
 export const getters = {
-    auth: state => {
-        return state.auth
-    },
-    name: state => {
-        return state.name
-    },
-    email: state => {
-        return state.email
-    },
-    photo: state => {
-        return state.photo
-    },
-    role: state => {
-        return state.role
-    },
-    token: state => {
-        return state.token
+    user: state => {
+        return state.user
     }
 }
 
@@ -34,33 +18,19 @@ export const actions = {
     },
     closeSession({commit, state}) {
         commit('closeSession')
-    },
-    updateStoreUser({commit, state}, data) {
-        commit('updateStoreUser', data)
     }
 }
 
 export const mutations = {
-    openSession(state, date) {
-        state.auth = true 
-        state.name = date.user.name
-        state.email = date.user.email
-        state.photo = date.user.photo
-        state.role = date.user.role
-        state.token = date.token
+    openSession(state, data) {
+        state.user.auth = true 
+        state.user.name = data.name
+        state.user.type_user = data.type_user
     },
     closeSession(state) {
-        this.$router.push({name: 'auth-login', params: {example_param: 'text example'}})
-        state.auth = false 
-        state.name = null
-        state.email = null
-        state.photo = null
-        state.role = null
-        state.token = null
-    },
-    updateStoreUser(state, data) {
-        state.photo = data.photo
-        state.name = data.name
-        state.email = data.email
+        this.$router.push({name: 'index', params: {example_param: 'text example'}})
+        state.user.auth = false
+        state.user.name = null
+        state.user.type_user = null
     }
 }

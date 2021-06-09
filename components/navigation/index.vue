@@ -7,13 +7,13 @@
         v-list(dense color="secondary" dark)
           v-list-item(link)
             v-list-item-content
-              v-list-item-title.light-1--text.text-body-1.font-family-raleway-bold {{ auth ? name : 'Cesion Cerrada' }}
-              v-list-item-subtitle.text-caption.font-family-raleway-medium.light-2--text {{ auth ? email : 'example app' }}
+              v-list-item-title.light-1--text.text-body-1.font-family-raleway-bold {{ user.auth ? user.name : 'Cesion Cerrada' }}
+              //- v-list-item-subtitle.text-caption.font-family-raleway-medium.light-2--text {{ user.auth ? user.email : 'example app' }}
 
       //- LINKS MENU
-      v-list
+      v-list.pt-0
         div(v-for="(link, i) in links" :key="i" link)
-          div(v-if="link.auth === auth")
+          div(v-if="link.auth === user.auth")
             v-tooltip(v-if="!link.subLinks" bottom)
               template(v-slot:activator="{ on, attrs }")
                 v-list-item(@click="$emit('closeNavbar')" v-bind="attrs" v-on="on" :key="i" :to="link.to" active-class="'border'")
@@ -43,7 +43,7 @@
       template(v-slot:append)
         div(class="pa-2")
           template
-            v-btn.mt-2.text-capitalize.font-family-raleway-bold( @click="$emit('closeNavbar')" large block dark rounded color="primary")
+            v-btn.mt-2.text-capitalize.font-family-raleway-bold( v-if="user.auth" @click="$emit('closeNavbar'), dialogCloseSesion = true" large block dark rounded color="primary")
               div LOGOUT
               v-icon power_settings_new
 
@@ -78,12 +78,7 @@ export default {
   },
   computed: {
     ...mapGetters({
-      auth: 'user/auth',
-      name: 'user/name',
-      email: 'user/email',
-      photo: 'user/photo',
-      role: 'user/role',
-      token: 'user/token'
+      user: 'user/user'
     })
   },
   data() {

@@ -1,106 +1,128 @@
 <template lang="pug">
-    v-container
+    v-container(v-if="user.auth && selected_room !== null")
 
-        v-layout.mb-4
-            v-flex.xs12
-                ChatSelectRoom
+        //- v-layout.mb-4
+        //-     v-flex.xs12
+        //-         ChatSelectRoom
         
         v-layout.align-stretch.wrap
 
             //- CONTAINER MESSAGES
             v-flex.xs12.sm8.elevation-15.rounded-lg.message-container.d-flex.flex-wrap.justify-end.flex-column
-                div(id="your_div" ref="container-messages-scroll").pa-3
-                    div(v-for="(item, idx) in messages" :key="idx" :max-width="400" dark :class="[`${item.type_user}`, (item.type_user === 'self' || item.type_user === 'moderator') ? 'align-self-end' : '']").pa-3.rounded-lg.mt-3.message
-                        h5.font-family-raleway-bold.mb-0 {{item.id}}
-                        p(v-html="item.message").font-family-raleway-bold.text-caption.mb-0
+                div(id="your_div" ref="container-messages-scroll")
+                    div(v-for="(item, idx) in messages" :key="idx" :max-width="400" dark :class="[item.type_user]").px-4.py-2.mt-2.message
+                        h5.font-family-raleway-bold.mb-0 {{item.name}}
+                        p(v-html="item.message").font-family-raleway-medium.text-caption.mb-0
+                        p.font-family-raleway-bold.text-caption.mb-0.text-right {{ item.date }}
 
             //- CONTAINER USERS
-            v-flex.xs12.sm4.pl-sm-4.mt-4.mt-sm-0.users-container
+            v-flex.xs12.sm4.pl-sm-4.mt-9.mb-9.mt-sm-0.mb-sm-0.users-container
                 v-layout.flex-column.elevation-15.rounded-lg
                     v-flex
-                        v-btn(color="secondary" block).rounded-0.rounded-t-lg.font-family-raleway-bold USERS
+                        v-btn( block ).rounded-0.rounded-t-lg.font-family-raleway-bold.text--secondary.text-capitalize USERS
                     v-flex.xs12.background-users.rounded-0.rounded-lg
                         v-list.rounded-lg
                             v-list-item-group(color="primary")
                                 v-list-item(v-for="(item, idx) in users" :key="idx")
                                     v-list-item-icon
-                                        v-icon(color="red lighten-3") account_circle
+                                        v-icon(color="grey darken-2") perm_identity
                                     v-list-item-content
-                                        v-list-item-title(v-text="item").font-family-raleway-bold.text--secondary
+                                        v-list-item-title(v-text="item.name").font-family-raleway-bold.text--secondary
 
         ChatSendMessage(v-on:message="sendMessage")
                 
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { mapGetters, mapActions } from 'vuex'
 export default {
     name: 'Chat',
     data() {
         return {
             divScroll: null,
-            messages: [],
-            users: [this.$socket.id],
+            users: [],
         }
     },
     watch: {
-        'selected_room'() {
-            this.$socket.emit('swith channel', this.selected_room)
-            this.users = [this.$socket.id]
-            this.messages = []
+        'selected_room'(value) {
+            this.users = [{name: this.user.name, type_user: this.user.type_user, id: this.$socket.id}]
+            this.$socket.emit('swith channel', {room: this.selected_room, name: this.user.name, type_user: this.user.type_user})
+            this.$socket.emit('get clients', this.selected_room)
             this.resetScroll()
         }
     },
     computed: {
         ...mapGetters({
-            'selected_room': 'chat/selected_room'
+            'selected_room': 'chat/selected_room',
+            'messages': 'chat/messages',
+            'user': 'user/user'
         }),
     },
     sockets: {
         'user connected'(data) {
             this.$socket.emit('get clients', this.selected_room)
-            this.messages.push({type_user: 'moderator', message: `user ${data.id} conected`, id: 'Connect'})
+            this.pushMessage({type_user: 'moderator', date: data.date, message: `user ${data.name} conected`, name: 'Connect'})
+            this.$nextTick(() => {
+                this.resetScroll()
+            })
         },
         'user disconnected'(data) {
             this.$socket.emit('get clients', this.selected_room)
-            this.messages.push({type_user: 'moderator', message: `user ${data.id} logged out`, id: 'Logged out'})
+            this.pushMessage({type_user: 'moderator', date: data.date, message: `user ${data.name} logged out`, name: 'Logged out'})
+            this.$nextTick(() => {
+                this.resetScroll()
+            })
         },
-        'get clients'(data) {
+        async 'get clients'(data) {
             this.users = data
         },
-        'get message'({id, type_user, message}) {
-            this.messages.push({type_user, message, id})
+        'get message'({id, type_user, message, date, name}) {
+            this.pushMessage({type_user, message, date, name, id})
             this.$nextTick(() => {
                 this.resetScroll()
             })
         }
     },
     methods: {
+        ...mapActions({
+            openSession: 'user/openSession',
+            updateRoom: 'chat/updateRoom',
+            pushMessage: 'chat/pushMessage'
+        }),
         resetScroll() {
             this.divScroll = this.$refs['container-messages-scroll']
             this.divScroll.scrollTop = this.divScroll.scrollHeight;
         },
         initRoom() {
-            this.$socket.emit('swith channel', this.selected_room)
+            this.users = [{name: this.user.name, type_user: this.user.type_user, id: this.$socket.id}]
+            this.$socket.emit('swith channel', {room: this.selected_room, name: this.user.name, type_user: this.user.type_user})
             this.resetScroll()
         },
         async sendMessage(message) {
-            await this.messages.push({type_user: 'self', message: message, id: this.$socket.id})
-            await this.$socket.emit('send message', {room: this.selected_room, message: message, type_user: 'client'})
+            this.pushMessage({type_user: 'self', message: message, name: this.user.name, date: this.$moment().format('LLL'), id: this.$socket.id})
+            await this.$socket.emit('send message', message)
             this.$nextTick(() => {
                 this.resetScroll()
             })
         }
     },
+    created() {
+        if(!this.user.auth){
+            let name = this.$route.query.name
+            let type_user = this.$route.query.type_user
+            if(name && type_user) this.openSession({name, type_user})
+        }
+        if(this.$route.query.room) this.updateRoom(this.$route.query.room)
+    },
     mounted() {
-        this.initRoom()
+        if(this.user.auth) this.initRoom()
     }
 }
 </script>
 
 <style lang="scss" scoped>
-    $backgroundContainers: rgb(251,251,251);
-    $heightChat: 55vh;
+    $backgroundContainers: rgb(251, 251, 251);
+    $heightChat: 71vh;
 
     @mixin styleScroll ($width, $color) {
         &::-webkit-scrollbar {
@@ -126,33 +148,52 @@ export default {
             overflow-y: scroll;
             overflow-x: hidden;
             height: auto;
-            margin-bottom: 10px;
-            @include styleScroll(20px, var(--v-secondary-base));
+            @include styleScroll(20px, rgba(0,0,0,.3));
             display: flex;
             justify-content: flex-start;
             flex-direction: column;
+            padding: 10px 0px 10px 10px;
 
             & div.message {
                 background: transparent;
-                border: 1px solid var(--v-secondary-base);
-                color: var(--v-secondary-base);
+                border: 2px solid rgba(0,0,0,.6);
+                color: rgba(0,0,0,.6);
                 width: 100%;
                 max-width: 400px;
                 display: inline-block;
+                border-radius: 15px 15px 0px 15px;
 
-                &.moderator {
-                    background: var(--v-primary-base);
-                    border: none;
-                    color: white;
-                    align-self: flex-end;
+                &.client {
+                    border-radius: 15px 15px 15px 0px;
+                    background: transparent;
+                    border: 2px solid rgba(0,0,0,.6);
+                    color: rgba(0,0,0,.6);
+                    align-self: flex-start;
                 }
 
                 &.self {
-                    background: var(--v-secondary-base);
+                    background: rgba(0,0,0,.6);
                     border: none;
                     color: white;
                     align-self: flex-end;
                 }
+
+                &.moderator {
+                    border-radius: 15px 15px 15px 0px;
+                    background: transparent;
+                    border: 2px solid #da555e;
+                    color: #da555e;;
+                    align-self: flex-start;
+                }
+
+                &.admin {
+                    border-radius: 15px 15px 15px 0px;
+                    background: #da555e;;
+                    border: none;
+                    color: white;
+                    align-self: flex-start;
+                }
+                
             }
 
         }
