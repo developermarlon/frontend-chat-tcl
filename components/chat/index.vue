@@ -1,5 +1,5 @@
 <template lang="pug">
-    v-container(v-if="user.auth && selected_room !== null")
+    v-container(v-if="user.auth && selected_room !== null").mb-16
 
         v-layout.mb-4
             v-flex.xs12
@@ -141,7 +141,7 @@ export default {
 
 <style lang="scss" scoped>
     $backgroundContainers: rgb(251, 251, 251);
-    $heightChat: 71vh;
+    $heightChat: 60vh;
 
     @mixin styleScroll ($width, $color) {
         &::-webkit-scrollbar {
