@@ -86,7 +86,7 @@ export default {
       name: 'CHAT TCL'
     },
     icon: {
-      fileName: 'icon.png'
+      fileName: 'icon.png?v1'
     }
   },
 
