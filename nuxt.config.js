@@ -87,7 +87,7 @@ export default {
     },
     icon: {
       source: 'static/icon.png',
-      fileName: 'icon.png'
+      filename: 'icon.png'
     }
   },
 
