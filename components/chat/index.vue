@@ -47,6 +47,9 @@
                     v-btn.dark.font-family-raleway-bold.text-capitalize(color="secondary" block rounded @click="dialogClearMessages = false; clearMessages()") Acept
         
         ChatSendMessage(v-on:message="sendMessage")
+
+    v-container(v-else).container-login-google
+        AuthGoogle
                 
 </template>
 
@@ -79,14 +82,14 @@ export default {
     sockets: {
         'user connected'(data) {
             this.$socket.emit('get clients', this.selected_room)
-            this.pushMessage({type_user: 'moderator', date: data.date, message: `user ${data.name} conected`, name: 'Connect'})
+            // this.pushMessage({type_user: 'moderator', date: data.date, message: `user ${data.name} conected`, name: 'Connect'})
             this.$nextTick(() => {
                 this.resetScroll()
             })
         },
         'user disconnected'(data) {
             this.$socket.emit('get clients', this.selected_room)
-            this.pushMessage({type_user: 'moderator', date: data.date, message: `user ${data.name} logged out`, name: 'Logged out'})
+            // this.pushMessage({type_user: 'moderator', date: data.date, message: `user ${data.name} logged out`, name: 'Logged out'})
             this.$nextTick(() => {
                 this.resetScroll()
             })
@@ -158,6 +161,13 @@ export default {
             background: $color;
             border: 4px solid white;  
         }
+    }
+
+    .container-login-google {
+        display: flex;
+        height: 90vh;
+        justify-content: center;
+        align-items: center;
     }
 
     .message-container {

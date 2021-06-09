@@ -22,7 +22,14 @@ export default {
     ],
     link: [
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
-    ]
+    ],
+    script: [
+      {
+        src: "https://accounts.google.com/gsi/client",
+        type: 'text/javascript',
+        charset: 'utf-8'
+      },
+    ],
   },
 
   // Global CSS: https://go.nuxtjs.dev/config-css

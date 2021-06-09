@@ -13,8 +13,8 @@ export const getters = {
 }
 
 export const actions = {
-    openSession({commit, state}, date) {
-        commit('openSession', date)
+    openSession({commit, state}, data) {
+        commit('openSession', data)
     },
     closeSession({commit, state}) {
         commit('closeSession')
