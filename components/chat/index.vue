@@ -109,8 +109,10 @@ export default {
             clearMessages: 'chat/clearMessages'
         }),
         resetScroll() {
-            this.divScroll = this.$refs['container-messages-scroll']
-            this.divScroll.scrollTop = this.divScroll.scrollHeight;
+            if(this.user.auth === true) {
+                this.divScroll = this.$refs['container-messages-scroll']
+                this.divScroll.scrollTop = this.divScroll.scrollHeight
+            }
         },
         initRoom() {
             this.users = [{name: this.user.name, type_user: this.user.type_user, id: this.$socket.id}]

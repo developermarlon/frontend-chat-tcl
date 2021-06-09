@@ -34,7 +34,7 @@ export const mutations = {
     },
     pushMessage(state, message) {
         message.room = state.selected_room
-        state.messages.push(message)
+        if(this.messages.filter((item) => item === messages).lenght === 0) state.messages.push(message)
     },
     clearMessages(state) {
         let newMessages = state.messages.filter((item) => item.room !== state.selected_room)

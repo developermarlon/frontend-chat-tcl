@@ -19,11 +19,13 @@ export default {
   },
   methods: {
       sendMessage(){
+        if(this.message && String(this.message).trim() !== '') {
           this.$emit('message', this.message.replace(/\n/g, "<br />"))
           this.$nextTick(() => {
               this.message = null
               this.$refs.textarea.focus()
           })
+        }
       },
       textAreaAdjust() {
           this.$refs.textarea.style.height = "1px";
