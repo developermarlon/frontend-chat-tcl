@@ -7,7 +7,7 @@ export default {
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
     titleTemplate: '%s - TCL',
-    title: 'frontend',
+    title: 'CHAT',
     htmlAttrs: {
       lang: "es",
     },
@@ -83,7 +83,7 @@ export default {
   pwa: {
     manifest: {
       lang: 'es',
-      name: 'Chat TCL'
+      name: 'CHAT TCL'
     },
     icon: {
       fileName: 'icon.png'
