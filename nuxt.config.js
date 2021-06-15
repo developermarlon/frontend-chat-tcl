@@ -70,7 +70,7 @@ export default {
     locales: ['es']
   },
   axios: {
-    baseURL: process.env.NODE_ENV === 'production' ? 'https://backend-chat-tcl.herokuapp.com' : 'http://192.168.0.105:3000',
+    baseURL: process.env.NODE_ENV === 'production' ? 'https://backend-chat-tcl.herokuapp.com' : 'http://192.168.0.110:3000',
   },
   loading: { color: colors.blueGrey.darken1, height: '5px', throttle: 0 },
   publicRuntimeConfig: {
@@ -84,7 +84,7 @@ export default {
     }
   },
   env: {
-    baseURL: process.env.NODE_ENV === 'production' ? 'https://backend-chat-tcl.herokuapp.com' : 'http://192.168.0.105:3000'
+    baseURL: process.env.NODE_ENV === 'production' ? 'https://backend-chat-tcl.herokuapp.com' : 'http://192.168.0.110:3000'
   },
   // PWA module configuration: https://go.nuxtjs.dev/pwa
   pwa: {

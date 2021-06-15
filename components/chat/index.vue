@@ -130,16 +130,20 @@ export default {
             })
         }
     },
-    created() {
+    async created() {
         if(!this.user.auth){
             let name = this.$route.query.name
             let type_user = this.$route.query.type_user
-            if(name && type_user) this.openSession({name, type_user})
+            if(name && type_user) {
+                this.openSession({name: atob(name), type_user: atob(type_user)})
+                window.location.reload(true)
+            }
         }
-        if(this.$route.query.room) this.updateRoom(this.$route.query.room)
+        if(this.$route.query.room) this.updateRoom(atob(this.$route.query.room))
     },
     mounted() {
         if(this.user.auth) this.initRoom()
+        console.log(`http://localhost:8080/?room=${btoa('privada')}&name=${btoa('Marlon Torres')}&type_user=${btoa('admin')}`)
     }
 }
 </script>
