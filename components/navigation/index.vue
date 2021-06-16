@@ -53,14 +53,14 @@
         v-card-title.headline.primary.white--text.font-family-raleway-bold 
           v-btn(icon dark @click="dialogCloseSesion = false" ).mr-2
             v-icon close
-          div Close Sesion
+          div Cerrar sesion
         
 
-        v-card-text.font-family-raleway-bold.mt-5 Confirm close the sesion ??
+        v-card-text.font-family-raleway-bold.mt-5 Confirma cerrar sesion ??
 
         v-card-actions.d-flex.flex-column
           v-spacer
-          v-btn.dark.font-family-raleway-bold.text-capitalize(color="secondary" block rounded @click="dialogCloseSesion = false, closeSession(), $emit('closeNavbar')") Acept
+          v-btn.dark.font-family-raleway-bold.text-capitalize(color="secondary" block rounded @click="dialogCloseSesion = false, closeSession(), $emit('closeNavbar')") Aceptar
           
 
 </template>

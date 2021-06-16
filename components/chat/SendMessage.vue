@@ -3,7 +3,7 @@
     v-container.pa-0
         v-layout(align-center)
             v-flex(xs12).d-flex.container-input.pl-0.pr-2
-                textarea(xs12 type="text" ref="textarea" v-model="message" @keyup="textAreaAdjust()" placeholder="Write Something...").font-family-raleway-bold.text-body-2
+                textarea(xs12 type="text" ref="textarea" v-model="message" @keyup="textAreaAdjust()" placeholder="Escribe tu mensaje...").font-family-raleway-bold.text-body-2
             v-flex.container-button
                 v-btn(fab id="buttonSend" color="#da555e" @click="sendMessage()" dark).elevation-2 
                     v-icon(dark) fas fa-paper-plane

@@ -46,9 +46,11 @@ export default {
         handleOnetapResponse(result) {
             const info = this.parseJwt(result.credential)
             const name = `${info.given_name} ${info.family_name}`
-            this.openSession({name, type_user: 'client'})
+            const email = `${info.email}`
+            console.log(email)
+            this.openSession({name, type_user: 'periodista', email})
             this.updateRoom('example')
-            window.location.reload(true)
+            // window.location.reload(true)
         }
     }
 }

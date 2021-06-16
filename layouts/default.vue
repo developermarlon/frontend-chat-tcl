@@ -6,7 +6,7 @@
         template(v-slot:placeholder)
             v-row.fill-height.ma-0(align="center" justify="center")
                 v-progress-circular(indeterminate color="grey lighten-5")
-      p(:max-width="150").mb-0.font-family-raleway-medium.text-caption.text--secondary.text-copy Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean velit purus, euismod eu eros et, volutpat ullamcorper diam.
+      //- p(:max-width="150").mb-0.font-family-raleway-medium.text-caption.text--secondary.text-copy Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean velit purus, euismod eu eros et, volutpat ullamcorper diam.
       v-spacer
       v-btn(color="primary" @click="dialogCloseSesion = true" fab small outlined v-if="$vuetify.breakpoint.smAndUp && user.auth")
         v-icon power_settings_new
@@ -24,14 +24,14 @@
         v-card-title.headline.primary.white--text.font-family-raleway-bold 
           v-btn(icon dark @click="dialogCloseSesion = false" ).mr-2
             v-icon close
-          div Close Sesion
+          div Cerrar Sesion
         
 
-        v-card-text.font-family-raleway-bold.mt-5 Confirm close the sesion ??
+        v-card-text.font-family-raleway-bold.mt-5 Confirma cerrar sesion ??
 
         v-card-actions.d-flex.flex-column
           v-spacer
-          v-btn.dark.font-family-raleway-bold.text-capitalize(color="secondary" block rounded @click="dialogCloseSesion = false, closeSession()") Acept
+          v-btn.dark.font-family-raleway-bold.text-capitalize(color="secondary" block rounded @click="dialogCloseSesion = false, closeSession()") Aceptar
 
       //- v-switch(:label="`Dark Theme`" v-model="goDark")
 </template>

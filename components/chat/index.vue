@@ -20,7 +20,7 @@
             v-flex.xs12.sm4.pl-sm-4.mt-9.mb-9.mt-sm-0.mb-sm-0.users-container
                 v-layout.flex-column.elevation-15.rounded-lg
                     v-flex
-                        v-btn( block ).rounded-0.rounded-t-lg.font-family-raleway-bold.text--secondary.text-capitalize USERS
+                        v-btn( block ).rounded-0.rounded-t-lg.font-family-raleway-bold.text--secondary.text-capitalize USUARIOS
                     v-flex.xs12.background-users.rounded-0.rounded-lg
                         v-list.rounded-lg
                             v-list-item-group(color="primary")
@@ -32,19 +32,19 @@
                                         v-list-item-subtitle.font-family-raleway-medium {{`${item.type_user}`}}
 
         //- MODAL CLOSE SESION
-        v-dialog(v-model="dialogClearMessages" max-width="290")
+        v-dialog(v-model="dialogClearMessages" max-width="320")
             v-card.rounded-xl
                 v-card-title.headline.primary.white--text.font-family-raleway-bold 
                     v-btn(icon dark @click="dialogClearMessages = false" ).mr-2
                         v-icon close
-                    div Clear Messages
+                    div Limpiar mensajes
                 
 
-                v-card-text.font-family-raleway-bold.mt-5 Confirm remove all messages of this room ??
+                v-card-text.font-family-raleway-bold.mt-5 Confirma remover todos los mensajes de esta sala ??
 
                 v-card-actions.d-flex.flex-column
                     v-spacer
-                    v-btn.dark.font-family-raleway-bold.text-capitalize(color="secondary" block rounded @click="dialogClearMessages = false; clearMessages()") Acept
+                    v-btn.dark.font-family-raleway-bold.text-capitalize(color="secondary" block rounded @click="dialogClearMessages = false; clearMessages()") Aceptar
         
         ChatSendMessage(v-on:message="sendMessage")
 
@@ -67,7 +67,8 @@ export default {
     watch: {
         'selected_room'(value) {
             this.users = [{name: this.user.name, type_user: this.user.type_user, id: this.$socket.id}]
-            this.$socket.emit('swith channel', {room: this.selected_room, name: this.user.name, type_user: this.user.type_user})
+            
+            this.$socket.emit('swith channel', {room: this.selected_room, name: this.user.name, type_user: this.user.type_user, email: this.user.email})
             this.$socket.emit('get clients', this.selected_room)
             this.resetScroll()
         }
@@ -119,11 +120,11 @@ export default {
         },
         initRoom() {
             this.users = [{name: this.user.name, type_user: this.user.type_user, id: this.$socket.id}]
-            this.$socket.emit('swith channel', {room: this.selected_room, name: this.user.name, type_user: this.user.type_user})
+            this.$socket.emit('swith channel', {room: this.selected_room, name: this.user.name, type_user: this.user.type_user, email: this.user.email})
             this.resetScroll()
         },
         async sendMessage(message) {
-            this.pushMessage({type_user: 'self', message: message, name: this.user.name, date: this.$moment().format('LLL'), id: this.$socket.id})
+            this.pushMessage({type_user: 'yo', message: message, name: this.user.name, date: this.$moment().format('LLL'), id: this.$socket.id})
             await this.$socket.emit('send message', message)
             this.$nextTick(() => {
                 this.resetScroll()
@@ -134,8 +135,9 @@ export default {
         if(!this.user.auth){
             let name = this.$route.query.name
             let type_user = this.$route.query.type_user
-            if(name && type_user) {
-                this.openSession({name: atob(name), type_user: atob(type_user)})
+            let email = this.$route.query.id
+            if(name && type_user && email) {
+                this.openSession({name: atob(name), type_user: atob(type_user), email: atob(email)})
                 window.location.reload(true)
             }
         }
@@ -143,7 +145,7 @@ export default {
     },
     mounted() {
         if(this.user.auth) this.initRoom()
-        console.log(`http://localhost:8080/?room=${btoa('privada')}&name=${btoa('Marlon Torres')}&type_user=${btoa('admin')}`)
+        console.log(`http://localhost:8080/?room=${btoa('example')}&name=${btoa('Marlon Torres Lozano')}&type_user=${btoa('periodista')}&id=${btoa('marlon@gmail.com')}`)
     }
 }
 </script>
@@ -205,7 +207,7 @@ export default {
                 display: inline-block;
                 border-radius: 15px 15px 0px 15px;
 
-                &.client {
+                &.periodista {
                     border-radius: 15px 15px 15px 0px;
                     background: transparent;
                     border: 2px solid rgba(0,0,0,.6);
@@ -213,7 +215,7 @@ export default {
                     align-self: flex-start;
                 }
 
-                &.self {
+                &.yo {
                     background: rgba(0,0,0,.6);
                     border: none;
                     color: white;

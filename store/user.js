@@ -1,6 +1,7 @@
 export const state = () => ({
     user: {
         auth: false,
+        email: null,
         name: null,
         type_user: null
     }
@@ -24,12 +25,14 @@ export const actions = {
 export const mutations = {
     openSession(state, data) {
         state.user.auth = true 
+        state.user.email = data.email
         state.user.name = data.name
         state.user.type_user = data.type_user
     },
     closeSession(state) {
         this.$router.push({name: 'index', params: {example_param: 'text example'}})
         state.user.auth = false
+        state.user.email = null
         state.user.name = null
         state.user.type_user = null
     }
